@@ -1,25 +1,28 @@
 import express from "express";
-import pg from "pg";
-const { Pool } = pg;
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import { dirname } from "path";
+import path from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 import items from "./listitems.js";
 import cors from "cors";
-const port = 5000;
+import userRoutes from "./routes/userRoutes.js";
+
+const port = process.env.PORT || 5000;
+
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+connectDB();
 
 const app = express();
+
 app.use(cors());
 
-const db = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "split",
-    password: "1234",
-    port: 5432,
+app.get("/", async (req, res) => {
+    res.send("API running");
 });
-db.connect();
 
-app.get("/", (req, res) => {
-    res.send("api runnirtywng");
-});
+app.use("/api/v1/user", userRoutes);
 
 app.get("/api/v1/dashboard", async (req, res) => {
     let it = items;
@@ -31,6 +34,6 @@ app.get("/api/v1/item/:id", async (req, res) => {
     res.json(it);
 });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log(`Server running on port ${port}`);
 });

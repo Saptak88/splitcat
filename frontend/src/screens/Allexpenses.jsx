@@ -1,58 +1,47 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useGetItemsQuery } from "../slices/itemApiSlice";
 
-const Itemscreen = () => {
-    const [items, setItems] = useState([]);
+const Allexpenses = () => {
+    const { data: items, isLoading, error } = useGetItemsQuery();
     const [openItemId, setOpenItemId] = useState(null);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
 
     const toggleListItem = (id) => {
         setOpenItemId(openItemId === id ? null : id);
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://192.168.29.186:5000/api/v1/dashboard");
-                setItems(response.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+    let total = 0;
+    let yo = 0;
+    let yao = 0;
+    items.forEach((item) => {
+        if (item.type === 0) {
+            yo -= item.total_amount;
+        }
+    });
+    items.forEach((item) => {
+        if (item.type === 1) {
+            yao += item.total_amount;
+        }
+    });
+    items.forEach((item) => {
+        if (item.type === 0) {
+            total -= item.total_amount;
+        } else {
+            total += item.total_amount;
+        }
+    });
 
-        fetchData();
-    }, []);
     return (
-        <div className="dashboard-outer border-start border-end border-subtle">
+        <div className=" dashboard-outer border-start border-end border-subtle">
             <div className="dashboard-top border-bottom border-subtle">
-                <p className="fs-4 fw-medium  text-dark">Friend name</p>
-                <button className="btn btn-primary ">Settle up</button>
+                <p className="fs-4 fw-medium  text-dark">All expenses</p>
+                <button className="btn btn-primary ">Add new expense</button>
             </div>
-            <div className="row border-bottom border-subtle m-0 p-0 dashboard-balance">
-                <div className="col border-end border-subtle align-items-center d-flex">
-                    <div className="col balance">
-                        <div className="row balance-column">
-                            <p className="text-center text-body-tertiary ">You owe</p>
-                        </div>
-                        <div className="row balance-column">
-                            <p className="text-center text-body-tertiary">$300.00</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div className="col  align-items-center d-flex">
-                    <div className="col balance">
-                        <div className="row balance-column">
-                            <p className="text-center text-body-tertiary">You are owed</p>
-                        </div>
-                        <div className="row balance-column">
-                            <p className="text-center text-body-tertiary">$300.00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div className="dashboard-main ">
                 <div className="row p-0 m-0">
                     <div className="col p-0 m-0">
@@ -107,4 +96,4 @@ const Itemscreen = () => {
     );
 };
 
-export default Itemscreen;
+export default Allexpenses;
