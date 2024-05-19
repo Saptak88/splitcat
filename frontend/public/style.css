@@ -81,6 +81,9 @@ p {
     color: white;
     display: none;
 }
+.large-display {
+    display: block;
+}
 .small-display {
     display: none;
 }
@@ -88,6 +91,16 @@ p {
     display: flex;
     height: 100%;
     align-items: center;
+}
+.login-item {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+}
+@media (max-width: 1200px) {
+    .login-item {
+        width: 60%;
+    }
 }
 
 @media (max-width: 576px) {
@@ -109,6 +122,13 @@ p {
     }
     .small-display {
         display: inline;
+    }
+    .login-item {
+        width: 90%;
+    }
+
+    .large-display {
+        display: none;
     }
 }
 
@@ -246,4 +266,46 @@ p {
 }
 .lb-inside.listopen {
     display: flex;
+}
+.user-profile-btn {
+    height: 50px;
+    padding: 5px;
+    padding-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-container {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.finput {
+    border-radius: 0;
+    padding: 10px;
+    border: 1px solid black;
+    height: 40px;
+}
+.finput:focus {
+    outline-color: #0088e5;
+    outline-style: solid; /* Set the style of the outline */
+    outline-width: 2px; /* Set the width of the outline */
+}
+.signin-btn {
+    margin-top: 10px;
+    color: white;
+    background-color: black;
+    width: fit-content;
+    font-size: large;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border: 1px solid black;
+}
+.signin-btn:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
 }

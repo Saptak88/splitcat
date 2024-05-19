@@ -1,12 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import path from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 import items from "./listitems.js";
-import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 
 const port = process.env.PORT || 5000;
@@ -16,13 +16,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get("/", async (req, res) => {
     res.send("API running");
 });
 
-app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/users", userRoutes);
 
 app.get("/api/v1/dashboard", async (req, res) => {
     let it = items;

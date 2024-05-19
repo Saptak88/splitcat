@@ -1,10 +1,31 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logout } from "../slices/authSlice";
 
 const Header = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { userInfo } = useSelector((state) => state.auth);
     const [headerLink, setheaderLink] = useState(0);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [logoutApiCall] = useLogoutMutation();
+
+    const logouthandler = async (event) => {
+        event.preventDefault();
+        try {
+            await logoutApiCall().unwrap();
+            dispatch(logout());
+            navigate("/signin");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const sidebarRef = useRef(null);
 
     const toggleHeader = (s) => {
@@ -37,7 +58,7 @@ const Header = () => {
         <div className="navbar p-0">
             <div className="navbar-top pe-sm-5 ps-sm-5 pe-2 ps-2 border-bottom border-subtle">
                 <div className="d-flex align-items-center">
-                    <button className="bg-white  me-2 ms-2  small-display border-none" onClick={toggleSidebar}>
+                    <button className="bg-white  me-2  small-display border-none" onClick={toggleSidebar}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30">
                             <path fill="none" d="M0 0h24v24H0V0z" />
                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
@@ -71,9 +92,59 @@ const Header = () => {
                         Recent Activity
                     </Link>
                 </div>
-                <a href="logout" className="text-dark fw-medium">
-                    Log out
-                </a>
+                <div class="dropdown">
+                    <div class="user-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div className="large-display fw-medium">{userInfo ? userInfo.email.split("@")[0] : ""}</div>
+                        <div className="small-display">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="30"
+                                height="30"
+                                fill="currentColor"
+                                class="bi bi-person"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="/profile">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    fill="currentColor"
+                                    className="bi bi-person me-2"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                                </svg>
+                                {userInfo ? userInfo.email.split("@")[0] : "Profile"}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/signout" onClick={logouthandler}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="20"
+                                    height="20"
+                                    fill="none"
+                                    className="me-2"
+                                    stroke="currentColor"
+                                    strokeWidth="1.6"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path d="M14 5l7 7-7 7M3 12h18"></path>
+                                </svg>
+                                Sign out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div className={`sidbarscreen ${sidebarOpen ? "open" : ""}`}></div>
             <div className={`sidebar d-flex flex-column ${sidebarOpen ? "openside" : ""}`} ref={sidebarRef}>

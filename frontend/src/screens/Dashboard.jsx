@@ -1,9 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetItemsQuery } from "../slices/itemApiSlice";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
     const { data: items, isLoading, error } = useGetItemsQuery();
+    const { userInfo } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!userInfo) {
+            navigate("/signin");
+        }
+    }, [userInfo, navigate]);
+
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 

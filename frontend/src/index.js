@@ -8,6 +8,7 @@ import Dashboard from "./screens/Dashboard";
 import Activity from "./screens/Activity";
 import Itemscreen from "./screens/Itemscreen";
 import Allexpenses from "./screens/Allexpenses";
+import Login from "./components/Login";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
             <Route path="/allexpenses" element={<Allexpenses />}></Route>
             <Route path="/activity" element={<Activity />}></Route>
             <Route path="/item/:id" element={<Itemscreen />}></Route>
+            <Route path="/signin" element={<Login />}></Route>
         </Route>
     )
 );
