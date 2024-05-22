@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import GridStructure from "./GridStructure";
-import { useLoginMutation } from "../slices/usersApiSlice";
+import { useRegisterMutation } from "../slices/usersApiSlice";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-function Login() {
+const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [register, { isLoading }] = useRegisterMutation();
     const { userInfo } = useSelector((state) => state.auth);
 
     useEffect(() => {
@@ -26,7 +26,7 @@ function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const res = await login({ email, password }).unwrap();
+            const res = await register({ email, password }).unwrap();
             dispatch(setCredentials({ ...res }));
             navigate("/dashboard");
         } catch (error) {
@@ -52,7 +52,7 @@ function Login() {
                 <div className="col-12 col-lg-6">
                     <div className="login-container">
                         <form onSubmit={handleSubmit} className="login-item">
-                            <p className="fs-4 pb-2 pb-sm-3">Sign in to Splitcat</p>
+                            <p className="fs-4 pb-2 pb-sm-3">Sign up to Splitcat</p>
                             <p className="fw-medium mb-1 mb-sm-2">Email</p>
                             <input
                                 type="email"
@@ -75,13 +75,13 @@ function Login() {
                             />
 
                             <button type="submit" className="signin-btn">
-                                Sign in
+                                Sign up
                             </button>
                         </form>
                         <div className="d-flex mt-4">
-                            <p className="me-1">Need an account? </p>
-                            <a href="/register" className="text-secondary">
-                                Sign up
+                            <p className="me-1">Already have an account? </p>
+                            <a href="/login" className="text-secondary">
+                                Sign in
                             </a>
                         </div>
                     </div>
@@ -91,6 +91,6 @@ function Login() {
             <GridStructure></GridStructure>
         </div>
     );
-}
+};
 
-export default Login;
+export default Register;

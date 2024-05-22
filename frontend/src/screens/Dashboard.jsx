@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetItemsQuery } from "../slices/itemApiSlice";
 import { useSelector } from "react-redux";
+import Modal from "../components/Modal";
 
 const Dashboard = () => {
     const { data: items, isLoading, error } = useGetItemsQuery();
@@ -10,7 +11,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!userInfo) {
-            navigate("/signin");
+            navigate("/login");
         }
     }, [userInfo, navigate]);
 
@@ -40,9 +41,12 @@ const Dashboard = () => {
 
     return (
         <div className=" dashboard-outer border-start border-end border-subtle">
+            <Modal></Modal>
             <div className="dashboard-top border-bottom border-subtle">
                 <p className="fs-4 fw-medium  text-dark">Dashboard</p>
-                <button className="btn btn-primary ">Add new expense</button>
+                <button className="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add new expense
+                </button>
             </div>
             <div className="row border-bottom border-subtle m-0 p-0 dashboard-balance">
                 <div className="col border-end border-subtle align-items-center d-flex">

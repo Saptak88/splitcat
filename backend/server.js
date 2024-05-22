@@ -31,6 +31,11 @@ app.get("/api/v1/dashboard", async (req, res) => {
     res.json(it);
 });
 
+app.post("/api/v1/add", async (req, res) => {
+    console.log(req.body);
+    res.status(200).json({ message: "kalo" });
+});
+
 app.get("/api/v1/item/:id", async (req, res) => {
     let it = items;
     res.json(it);
