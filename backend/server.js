@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 import items from "./listitems.js";
 import userRoutes from "./routes/userRoutes.js";
+import itemRoutes from "./routes/itemRoutes.js";
 
 const port = process.env.PORT || 5000;
 
@@ -25,6 +26,7 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/items", itemRoutes);
 
 app.get("/api/v1/dashboard", async (req, res) => {
     let it = items;

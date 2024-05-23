@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useGetItemsQuery } from "../slices/itemApiSlice";
 
 const Modal = () => {
     const [title, setTitle] = useState("");
@@ -7,6 +8,7 @@ const Modal = () => {
     const [date, setDate] = useState("");
     const [email, setEmail] = useState("");
     const [emailList, setEmailList] = useState([]);
+    const { refetch: refetchItems } = useGetItemsQuery();
 
     const handleInputChange = (e) => {
         setEmail(e.target.value);
@@ -55,12 +57,13 @@ const Modal = () => {
         };
 
         try {
-            const response = await axios.post("/api/v1/add", formData);
+            const response = await axios.post("/api/v1/items/add", formData);
             setTitle("");
             setAmount("");
             setEmail("");
             setEmailList([]);
             if (response.status === 200) {
+                refetchItems();
                 const closeButton = document.querySelector("#exampleModal #btn-close");
                 closeButton.click();
             }
@@ -89,13 +92,9 @@ const Modal = () => {
                                     <div className="emaillist">
                                         <ul className="emaillist-ul ms-4 me-4">
                                             {emailList.map((email, index) => (
-                                                <li key={index} className="mt-2 me-2" style={{ listStyle: "none" }}>
+                                                <li key={index} className="mt-2 me-2 emaillist-li" style={{ listStyle: "none" }}>
                                                     {email}
-                                                    <button
-                                                        className="ms-2 btn-split"
-                                                        onClick={() => handleRemoveEmail(index)}
-                                                        type="button"
-                                                    >
+                                                    <button className="ms-1" onClick={() => handleRemoveEmail(index)} type="button">
                                                         &times;
                                                     </button>
                                                 </li>
@@ -108,6 +107,7 @@ const Modal = () => {
                                         <div>
                                             <input
                                                 type="email"
+                                                name="email"
                                                 value={email}
                                                 onChange={handleInputChange}
                                                 onKeyDown={handleKeyDown}
@@ -126,7 +126,7 @@ const Modal = () => {
                                             onChange={(e) => setTitle(e.target.value)}
                                             placeholder="Title"
                                             required
-                                            className="add-ex mb-2"
+                                            className="add-ex fs-5 mb-2"
                                         />
 
                                         <div className="d-flex align-items-center mb-2">
@@ -138,7 +138,7 @@ const Modal = () => {
                                                 onChange={(e) => setAmount(e.target.value)}
                                                 placeholder="0.00"
                                                 required
-                                                className="add-ex"
+                                                className="add-ex fs-4"
                                             />
                                         </div>
                                     </div>

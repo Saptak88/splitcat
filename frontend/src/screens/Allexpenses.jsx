@@ -14,27 +14,6 @@ const Allexpenses = () => {
         setOpenItemId(openItemId === id ? null : id);
     };
 
-    let total = 0;
-    let yo = 0;
-    let yao = 0;
-    items.forEach((item) => {
-        if (item.type === 0) {
-            yo -= item.total_amount;
-        }
-    });
-    items.forEach((item) => {
-        if (item.type === 1) {
-            yao += item.total_amount;
-        }
-    });
-    items.forEach((item) => {
-        if (item.type === 0) {
-            total -= item.total_amount;
-        } else {
-            total += item.total_amount;
-        }
-    });
-
     return (
         <div className=" dashboard-outer border-start border-end border-subtle">
             <div className="dashboard-top border-bottom border-subtle">
@@ -48,23 +27,23 @@ const Allexpenses = () => {
                         {items.map((item) => (
                             <div
                                 className="listitem row m-0 text-decoration-none border-bottom border-subtle"
-                                key={item.bill_id}
-                                onClick={() => toggleListItem(item.bill_id)}
+                                key={item._id}
+                                onClick={() => toggleListItem(item._id)}
                             >
                                 <div className="listitem-top d-flex">
                                     <div className="col-11 ">
                                         <div className="row m-0 p-0 ">
                                             <div className=" col-sm-8 col-12 d-flex align-items-center">
-                                                <p className="text-body-tertiary fw-medium">{item.bill_name}</p>
+                                                <p className="text-body-tertiary fw-medium">{item.title}</p>
                                             </div>
                                             <div className="d-flex align-items-center col-sm-4 col-12">
                                                 <div className="me-5">
                                                     <p className="text-body-tertiary listitem-small">You paid</p>
-                                                    <p className="text-body-tertiary fs-5 listitem-small">${item.total_amount}</p>
+                                                    <p className="text-body-tertiary fs-5 listitem-small">${item.totalAmount}</p>
                                                 </div>
                                                 <div className="me-2">
                                                     <p className="text-body-tertiary listitem-small">You lent Friend</p>
-                                                    <p className="text-body-tertiary fs-5 listitem-small">${item.total_amount}</p>
+                                                    <p className="text-body-tertiary fs-5 listitem-small">${"item.total_amount"}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,8 +60,8 @@ const Allexpenses = () => {
                                         </Link>
                                     </div>
                                 </div>
-                                <div className={`listitem-bottom ${openItemId == item.bill_id ? "listopen" : ""}`}>
-                                    <div className={`lb-inside ${openItemId == item.bill_id ? "listopen" : ""}`}>
+                                <div className={`listitem-bottom ${openItemId === item._id ? "listopen" : ""}`}>
+                                    <div className={`lb-inside ${openItemId === item._id ? "listopen" : ""}`}>
                                         kalo biral fdskgjh gkfjhgkja kgjahjaksh kajgh gjfah kjgfhs kjasgfh askjgfh sglakjfh lksgfh laskfgh
                                         sglkh skgfjh skgfdjh skfdjh fskjdh fksdjgh{" "}
                                     </div>

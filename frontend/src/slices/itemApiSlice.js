@@ -4,7 +4,7 @@ export const itemApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getItems: builder.query({
             query: () => ({
-                url: "/api/v1/dashboard",
+                url: "/api/v1/items/getItems",
             }),
             keepUnusedDataFor: 5,
         }),

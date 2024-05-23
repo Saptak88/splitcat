@@ -49,6 +49,7 @@ p {
     width: 100%;
     display: flex;
 }
+
 .balance-column {
     line-height: 1.1;
     display: flex;
@@ -56,7 +57,7 @@ p {
 }
 .dashboard-balance {
     background-color: #eee;
-    height: 40px;
+    height: 50px;
 }
 .listitem {
     display: flex;
@@ -142,6 +143,9 @@ p {
     }
     .large-display {
         display: none;
+    }
+    .col-amount {
+        padding-bottom: 3px;
     }
 }
 
@@ -375,13 +379,11 @@ p {
     border: none;
     border-bottom: 1px dashed #c8ccca; /* Change the color and thickness as needed */
     font-size: 16px;
-    font-size: 25px;
     line-height: 1.1;
 }
 .add-ex::placeholder {
     color: #c5c5c5;
     font-weight: 400;
-    font-size: 25px;
 }
 .add-ex:focus {
     outline: none; /* Remove the default focus outline */
@@ -424,4 +426,16 @@ input[type="date"] {
     flex-wrap: wrap;
     display: flex;
     width: 100%;
+}
+.emaillist-li {
+    background-color: #eee;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 10px;
+}
+.emaillist-li button {
+    border: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: transparent;
 }

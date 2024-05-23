@@ -21,23 +21,55 @@ const Dashboard = () => {
     let total = 0;
     let yo = 0;
     let yao = 0;
-    items.forEach((item) => {
-        if (item.type === 0) {
-            yo -= item.total_amount;
-        }
-    });
-    items.forEach((item) => {
-        if (item.type === 1) {
-            yao += item.total_amount;
-        }
-    });
-    items.forEach((item) => {
-        if (item.type === 0) {
-            total -= item.total_amount;
-        } else {
-            total += item.total_amount;
-        }
-    });
+
+    const groupedItemsObj1 = {};
+    const groupedItemsObj2 = {};
+
+    if (userInfo) {
+        items.forEach((item) => {
+            item.shares.forEach((share) => {
+                const { email, amount } = share;
+                if (email !== userInfo.email) {
+                    if (!groupedItemsObj1[email]) {
+                        groupedItemsObj1[email] = {
+                            email,
+                            totalAmount: amount,
+                        };
+                        total += amount;
+                        yao += amount;
+                    } else {
+                        groupedItemsObj1[email].totalAmount += amount;
+                        total += amount;
+                        yao += amount;
+                    }
+                }
+            });
+        });
+
+        items.forEach((item) => {
+            if (item.createdByEmail !== userInfo.email) {
+                const matchedShare = item.shares.find((share) => share.email === userInfo.email);
+                const matchedAmount = matchedShare ? matchedShare.amount : 0;
+                const [email, amount] = [item.createdByEmail, matchedAmount];
+
+                if (!groupedItemsObj2[email]) {
+                    groupedItemsObj2[email] = {
+                        email,
+                        totalAmount: amount,
+                    };
+                    total -= amount;
+                    yo -= amount;
+                } else {
+                    groupedItemsObj2[email].totalAmount += amount;
+                    total -= amount;
+                    yo -= amount;
+                }
+            }
+        });
+    }
+
+    const groupedItems = Object.values(groupedItemsObj1);
+    const groupedItems2 = Object.values(groupedItemsObj2);
 
     return (
         <div className=" dashboard-outer border-start border-end border-subtle">
@@ -55,7 +87,7 @@ const Dashboard = () => {
                             <p className="text-center text-body-tertiary ">Total balance</p>
                         </div>
                         <div className="row balance-column">
-                            <p className={`text-center  ${total < 0 ? "text-danger" : "text-success"}`}>
+                            <p className={`text-center fs-5  ${total < 0 ? "text-danger" : "text-success"}`}>
                                 {total < 0 ? "-" : ""}${Math.abs(total)}
                             </p>
                         </div>
@@ -67,7 +99,7 @@ const Dashboard = () => {
                             <p className="text-center text-body-tertiary">You owe</p>
                         </div>
                         <div className="row balance-column">
-                            <p className={`text-center  ${yo < 0 ? "text-danger" : "text-success"}`}>${Math.abs(yo)}</p>
+                            <p className={`text-center fs-5  ${yo < 0 ? "text-danger" : "text-success"}`}>${Math.abs(yo)}</p>
                         </div>
                     </div>
                 </div>
@@ -77,7 +109,7 @@ const Dashboard = () => {
                             <p className="text-center text-body-tertiary">You are owed</p>
                         </div>
                         <div className="row balance-column ">
-                            <p className={`text-center  ${yao < 0 ? "text-danger" : "text-success"}`}>${Math.abs(yao)}</p>
+                            <p className={`text-center fs-5  ${yao < 0 ? "text-danger" : "text-success"}`}>${Math.abs(yao)}</p>
                         </div>
                     </div>
                 </div>
@@ -88,49 +120,45 @@ const Dashboard = () => {
                     <div className="row p-0 m-0">
                         <div className="col p-0 m-0">
                             <p className="fs-5 fw-medium ps-2  text-center border-bottom border-subtle  text-body-tertiary">You owe</p>
-                            {items.map(
-                                (item) =>
-                                    item.type === 0 && (
-                                        <Link
-                                            to={`/item/${item.bill_id}`}
-                                            className="listitem row m-0 text-decoration-none border-bottom border-subtle"
-                                            key={item.bill_id}
-                                        >
-                                            <div className=" col-sm-12 col-lg-6">
-                                                <p className="text-secondary fw-medium">Friend name</p>
+                            {groupedItems2 &&
+                                groupedItems2.map((friend) => (
+                                    <Link
+                                        to={`/friend/${friend.email}`}
+                                        className="listitem row m-0 text-decoration-none border-bottom border-subtle"
+                                        key={friend.email}
+                                    >
+                                        <div className=" col-sm-12 col-lg-6">
+                                            <p className="text-secondary fw-medium">{friend.email.split("@")[0]}</p>
+                                        </div>
+                                        <div className="col-sm-12 col-lg-6 d-flex align-items-center col-amount">
+                                            <div>
+                                                <p className="text-body-tertiary listitem-small">you owe</p>
+                                                <p className="text-danger fs-5 listitem-small">${friend.totalAmount}</p>
                                             </div>
-                                            <div className="col-sm-12 col-lg-6 d-flex align-items-center">
-                                                <div>
-                                                    <p className="text-body-tertiary listitem-small">you owe</p>
-                                                    <p className="text-danger fs-5 listitem-small">${item.total_amount}</p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    )
-                            )}
+                                        </div>
+                                    </Link>
+                                ))}
                         </div>
                         <div className="col p-0 m-0 border-start border-subtle">
                             <p className="fs-5 fw-medium pe-2 text-center border-bottom border-subtle  text-body-tertiary">You are owed</p>
-                            {items.map(
-                                (item) =>
-                                    item.type === 1 && (
-                                        <Link
-                                            to={`/item/${item.bill_id}`}
-                                            className="listitem row m-0 text-decoration-none border-bottom border-subtle"
-                                            key={item.bill_id}
-                                        >
-                                            <div className=" col-sm-12 col-lg-6">
-                                                <p className="text-secondary fw-medium">Friend name</p>
+                            {groupedItems &&
+                                groupedItems.map((friend) => (
+                                    <Link
+                                        to={`/friend/${friend.email}`}
+                                        className="listitem row m-0 text-decoration-none border-bottom border-subtle"
+                                        key={friend.email}
+                                    >
+                                        <div className=" col-sm-12 col-lg-6">
+                                            <p className="text-secondary fw-medium">{friend.email.split("@")[0]}</p>
+                                        </div>
+                                        <div className="col-sm-12 col-lg-6 d-flex align-items-center col-amount">
+                                            <div>
+                                                <p className="text-body-tertiary listitem-small">owes you</p>
+                                                <p className="text-success fs-5 listitem-small">${friend.totalAmount}</p>
                                             </div>
-                                            <div className="col-sm-12 col-lg-6 d-flex align-items-center">
-                                                <div>
-                                                    <p className="text-body-tertiary listitem-small">owes you</p>
-                                                    <p className="text-success fs-5 listitem-small">${item.total_amount}</p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    )
-                            )}
+                                        </div>
+                                    </Link>
+                                ))}
                         </div>
                     </div>
                 </div>
