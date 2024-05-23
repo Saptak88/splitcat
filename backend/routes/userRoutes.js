@@ -23,7 +23,7 @@ router.post(
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
             res.cookie("jwt", token, {
                 httpOnly: true,
-                secure: false,
+                secure: process.env.NODE_ENV !== "development",
                 sameSite: "strict",
                 maxAge: 24 * 60 * 60 * 1000,
             });
@@ -52,7 +52,7 @@ router.post(
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
             res.cookie("jwt", token, {
                 httpOnly: true,
-                secure: false,
+                secure: process.env.NODE_ENV !== "development",
                 sameSite: "strict",
                 maxAge: 24 * 60 * 60 * 1000,
             });
@@ -69,7 +69,7 @@ router.post(
     asyncHandler(async (req, res) => {
         res.cookie("jwt", "", {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV !== "development",
             sameSite: "strict",
             expires: new Date(0), // Expire the cookie immediately
         });
