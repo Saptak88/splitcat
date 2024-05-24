@@ -33,9 +33,9 @@ const Register = () => {
             console.log(error);
         }
     };
-    if (isLoading) {
+    /*   if (isLoading) {
         return <div>Loading...</div>;
-    }
+    }*/
     return (
         <div>
             <div className="navbar p-0">
@@ -75,14 +75,14 @@ const Register = () => {
                             />
 
                             <button type="submit" className="signin-btn">
-                                Sign up
+                                {isLoading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : "Sign up"}
                             </button>
                         </form>
                         <div className="d-flex mt-4">
                             <p className="me-1">Already have an account? </p>
-                            <a href="/login" className="text-secondary">
+                            <Link to="/login" className="text-secondary">
                                 Sign in
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

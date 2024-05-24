@@ -78,9 +78,9 @@ const Modal = () => {
     return (
         <div>
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <div className="modal-header">
+                <div className="modal-dialog ">
+                    <div className="modal-content ">
+                        <div className="modal-header pt-2 pb-2">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">
                                 Add an expense
                             </h1>
@@ -88,36 +88,46 @@ const Modal = () => {
                         </div>
                         <div className="modal-body p-0 m-0">
                             <form className="p-0 m-0">
-                                <div className="border-bottom border-subtle">
-                                    <div className="emaillist">
+                                <div className={emailList.length !== 0 ? "border-bottom border-subtle" : ""}>
+                                    <div className="emaillist mb-2">
                                         <ul className="emaillist-ul ms-4 me-4">
+                                            <li className="mt-2 me-2" style={{ listStyle: "none" }}>
+                                                <p className="fw-medium large-display ">With you and:</p>
+                                            </li>
+
                                             {emailList.map((email, index) => (
                                                 <li key={index} className="mt-2 me-2 emaillist-li" style={{ listStyle: "none" }}>
                                                     {email}
-                                                    <button className="ms-1" onClick={() => handleRemoveEmail(index)} type="button">
-                                                        &times;
+                                                    <button className="" onClick={() => handleRemoveEmail(index)} type="button">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24">
+                                                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                                            <path d="M0 0h24v24H0z" fill="none" />
+                                                        </svg>
                                                     </button>
                                                 </li>
                                             ))}
+                                            <li className="mt-2  ex-email-li" style={{ listStyle: "none" }}>
+                                                <input
+                                                    type="email"
+                                                    name="email"
+                                                    value={email}
+                                                    onChange={handleInputChange}
+                                                    onKeyDown={handleKeyDown}
+                                                    placeholder="Enter email"
+                                                    className="ex-email"
+                                                />
+                                            </li>
                                         </ul>
                                     </div>
-
-                                    <div className="ms-4 me-4 mt-1 mb-1 d-flex align-items-center">
-                                        <p className="fw-medium large-display me-2">With you and:</p>
-                                        <div>
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                value={email}
-                                                onChange={handleInputChange}
-                                                onKeyDown={handleKeyDown}
-                                                placeholder="Enter email & press Enter"
-                                                className=" ex-email"
-                                            />
-                                        </div>
+                                    <div
+                                        className={`emaillist-bottom border-bottom border-top text-secondary ps-4 border-subtle ${
+                                            email !== "" ? "" : "visually-hidden"
+                                        } `}
+                                    >
+                                        Press Enter to add email
                                     </div>
                                 </div>
-                                <div className="row m-2 p-0">
+                                <div className={`row m-2 p-0 ${emailList.length !== 0 ? "" : "visually-hidden"}`}>
                                     <div className="col-12">
                                         <input
                                             type="text"
@@ -148,15 +158,23 @@ const Modal = () => {
                                             <button className="btn-split me-2">you</button>
                                             <p className="fw-medium me-2">& split</p>
                                             <button className="btn-split">equally</button>
+                                            <p className="fw-medium me-2">.</p>
                                         </div>
 
                                         <div>
                                             <div className="row m-0 p-0 d-flex align-items-center">
                                                 <div className="col-12 col-sm-6 d-flex justify-content-center align-items-center mb-2">
-                                                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                                                    <input
+                                                        type="date"
+                                                        className="btn btn-light"
+                                                        value={date}
+                                                        onChange={(e) => setDate(e.target.value)}
+                                                    />
                                                 </div>
                                                 <div className="col-12 col-sm-6 d-flex justify-content-center align-items-center mb-2">
-                                                    <button className="btn btn-primary">Add image/notes</button>
+                                                    <button className="btn btn-primary" style={{ minWidth: "160px" }}>
+                                                        Add image/notes
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,8 +182,7 @@ const Modal = () => {
                                 </div>
                             </form>
                         </div>
-
-                        <div className="modal-footer">
+                        <div className="modal-footer pt-2 pb-2">
                             <button type="button" id="btn-close" className="btn btn-secondary" data-bs-dismiss="modal">
                                 Close
                             </button>

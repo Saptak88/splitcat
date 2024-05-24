@@ -33,9 +33,9 @@ function Login() {
             console.log(error);
         }
     };
-    if (isLoading) {
+    /*  if (isLoading) {
         return <div>Loading...</div>;
-    }
+    }*/
     return (
         <div>
             <div className="navbar p-0">
@@ -75,14 +75,14 @@ function Login() {
                             />
 
                             <button type="submit" className="signin-btn">
-                                Sign in
+                                {isLoading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : "Sign in"}
                             </button>
                         </form>
                         <div className="d-flex mt-4">
                             <p className="me-1">Need an account? </p>
-                            <a href="/register" className="text-secondary">
+                            <Link to="/register" className="text-secondary">
                                 Sign up
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
