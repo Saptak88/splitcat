@@ -1,8 +1,7 @@
 {
     "name": "frontend",
     "version": "0.1.0",
-    "proxy": "http://localhost:5000",
-    "homepage": ".",
+    "proxy": "http://192.168.29.186:5000",
     "private": true,
     "dependencies": {
         "@reduxjs/toolkit": "^2.2.5",
@@ -43,5 +42,10 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-    }
+    },
+    "main": "index.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
 }

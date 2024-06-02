@@ -50,9 +50,7 @@ const Homepage = () => {
                         <p className="fs-1  fw-medium">How It Works</p>
                         <ul>
                             <li>
-                                <p className="fs-3 fw-medium">
-                                    Add Expenses: Enter expenses as they occur. Include details and even photos of receipts.
-                                </p>
+                                <p className="fs-3 fw-medium">Add Expenses: Enter expenses as they occur.</p>
                             </li>
                             <li>
                                 <p className="fs-3 fw-medium">

@@ -75,7 +75,7 @@ const Register = () => {
                             />
 
                             <button type="submit" className="signin-btn">
-                                {isLoading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : "Sign up"}
+                                {isLoading ? <span className="spinner-border spinner-border-sm" aria-hidden="true"></span> : "Sign up"}
                             </button>
                         </form>
                         <div className="d-flex mt-4">

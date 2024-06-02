@@ -75,7 +75,7 @@ function Login() {
                             />
 
                             <button type="submit" className="signin-btn">
-                                {isLoading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : "Sign in"}
+                                {isLoading ? <span className="spinner-border spinner-border-sm" aria-hidden="true"></span> : "Sign in"}
                             </button>
                         </form>
                         <div className="d-flex mt-4">

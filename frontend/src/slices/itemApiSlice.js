@@ -8,7 +8,14 @@ export const itemApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
         }),
+        deleteItems: builder.mutation({
+            query: (data) => ({
+                url: "/api/v1/items/delete",
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useGetItemsQuery } = itemApiSlice;
+export const { useGetItemsQuery, useDeleteItemsMutation } = itemApiSlice;

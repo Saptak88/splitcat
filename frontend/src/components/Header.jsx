@@ -1,14 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 
 const Header = () => {
+    const location = useLocation();
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { userInfo } = useSelector((state) => state.auth);
-    const [headerLink, setheaderLink] = useState(0);
+    const [headerLink, setheaderLink] = useState(null);
+
+    useEffect(() => {
+        if (location.pathname === "/dashboard") {
+            setheaderLink(0);
+        } else if (location.pathname === "/allexpenses") {
+            setheaderLink(1);
+        } else {
+            setheaderLink(null);
+        }
+    }, [location.pathname]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -27,10 +39,6 @@ const Header = () => {
     };
 
     const sidebarRef = useRef(null);
-
-    const toggleHeader = (s) => {
-        setheaderLink(s);
-    };
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
@@ -70,18 +78,10 @@ const Header = () => {
                     </Link>
                 </div>
                 <div className="big-display">
-                    <Link
-                        to="/dashboard"
-                        className={`header-links me-2   ${headerLink === 0 ? "hlopen" : ""} fw-medium`}
-                        onClick={() => toggleHeader(0)}
-                    >
+                    <Link to="/dashboard" className={`header-links me-2   ${headerLink === 0 ? "hlopen" : ""} fw-medium`}>
                         Dashboard
                     </Link>
-                    <Link
-                        to="/allexpenses"
-                        className={`header-links ms-2  ${headerLink === 1 ? "hlopen" : ""} fw-medium`}
-                        onClick={() => toggleHeader(1)}
-                    >
+                    <Link to="/allexpenses" className={`header-links ms-2  ${headerLink === 1 ? "hlopen" : ""} fw-medium`}>
                         All Expenses
                     </Link>
                 </div>

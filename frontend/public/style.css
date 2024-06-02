@@ -118,7 +118,7 @@ p {
 }
 .signup-link:hover,
 .signin-link:hover {
-    background-color: orange;
+    background-color: rgb(254, 116, 2);
 }
 
 @media (max-width: 576px) {
@@ -264,7 +264,8 @@ p {
 }
 .listitem-bottom {
     display: flex;
-    height: 0px;
+    overflow: hidden;
+    height: 0;
     transition: height 0.3s ease;
     background-color: #f6f6f6;
     box-shadow: inset 0 4px 5px -3px rgba(0, 0, 0, 0.2), inset 0 -4px 5px -4px rgba(0, 0, 0, 0.1);
@@ -272,17 +273,29 @@ p {
 .listitem-bottom.listopen {
     height: 200px;
 }
+@media (max-width: 576px) {
+    .listitem-bottom.listopen {
+        height: 400px;
+    }
+}
+@media (min-width: 576px) {
+    .listitem-top {
+        height: 60px;
+    }
+}
+
 .listitem-top {
     display: flex;
     min-height: 60px;
     align-items: center;
     justify-content: space-between;
 }
-.lb-inside {
-    display: none;
+.listitem-top:hover {
+    cursor: pointer;
 }
-.lb-inside.listopen {
+.lb-inside {
     display: flex;
+    width: 100%;
 }
 .user-profile-btn {
     height: 50px;
@@ -291,6 +304,16 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.texti-area {
+    width: 100%;
+}
+.texti-area:focus {
+    outline-color: #0088e5;
+    outline-width: 1px;
+}
+.texti-area::placeholder {
+    color: #afafaf;
 }
 .finput {
     border-radius: 0;
@@ -426,6 +449,7 @@ input[type="date"] {
     width: 100%;
 }
 .emaillist-li {
+    border: 1px solid rgb(162, 162, 162);
     display: flex;
     align-items: center;
     background-color: #eee;
@@ -447,4 +471,53 @@ input[type="date"] {
     display: flex;
     width: 100%;
     background-color: white;
+}
+.split-capsule {
+    width: 60%;
+    height: 30px;
+}
+@media (max-width: 576px) {
+    .split-capsule {
+        width: 100%;
+    }
+}
+.spc-btn {
+    background-color: #f1f1f1;
+    height: 100%;
+    width: 33%;
+    border: none;
+}
+.spc-btn.spc-active {
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.spc-btn:hover {
+    background-color: #dcdcdc;
+}
+.spl-ami {
+    width: 70px;
+    padding: 5px;
+    border-radius: 0 5px 5px 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    border: 1px solid #cccccc;
+    display: inline-block;
+    color: #555555;
+}
+.spl-ami:focus {
+    outline-color: #0088e5;
+    outline-style: solid; /* Set the style of the outline */
+    outline-width: 1px;
+}
+.add-on {
+    display: inline-block;
+    width: auto;
+    min-width: 16px;
+    padding: 4px 10px;
+
+    text-align: center;
+    text-shadow: 0 1px 0 #ffffff;
+    vertical-align: middle;
+    background-color: #eeeeee;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 3px 0 0 3px;
 }

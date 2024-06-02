@@ -38,6 +38,10 @@ const itemSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        notes: {
+            type: String,
+            required: false,
+        },
     },
     { timestamps: true }
 );
