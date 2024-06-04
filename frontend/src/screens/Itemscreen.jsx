@@ -67,12 +67,12 @@ const Itemscreen = () => {
         try {
             // Send a POST request to delete the item
             setCurrDel(_id);
-            await deleteItems({ _id });
+            await deleteItems({ _id }).unwrap();
             refetchItems();
         } catch (error) {
             setCurrDel(null);
             console.error("Error deleting item:", error);
-            alert(error?.response.data.message);
+            alert(error?.data.message);
         }
     };
 

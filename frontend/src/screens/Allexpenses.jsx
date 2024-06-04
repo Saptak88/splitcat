@@ -46,16 +46,16 @@ const Allexpenses = () => {
     }
 
     const handleDelete = async (_id, event) => {
-        event.preventDefault(); // Prevent the default action of the link
+        event.preventDefault();
 
         try {
             setCurrDel(_id);
-            await deleteItems({ _id });
+            await deleteItems({ _id }).unwrap();
             refetchItems();
         } catch (error) {
             setCurrDel(null);
-            console.error("Error deleting item:", error);
-            alert(error?.response.data.message);
+            console.log("Error deleting item:", error);
+            alert(error?.data.message);
         }
     };
 
